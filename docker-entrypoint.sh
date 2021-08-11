@@ -25,3 +25,4 @@ ip route del 172.10.10.0/24 dev $1
 _EOF_
 
 exec pon ${TUNNEL} debug dump logfd 2 nodetach persist "$@"
+syslogd -n -O /dev/stdout
