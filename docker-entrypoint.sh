@@ -1,15 +1,13 @@
 #!/bin/sh
 
-cat > /etc/ppp/peers/vpn <<_EOF_
+cat > /etc/ppp/peers/${TUNNEL} <<_EOF_
 pty "pptp ${SERVER} --nolaunchpppd"
 name "${USERNAME}"
 password "${PASSWORD}"
 remotename PPTP
 require-mppe-128
-nodefaultroute
-persist
-maxfail 10 
-ipparam "vpn"
+file /etc/ppp/options.pptp
+ipparam "${TUNNEL}"
 _EOF_
 
 cat > /etc/ppp/ip-up <<"_EOF_"
@@ -26,4 +24,5 @@ ip route del 128.0.0.0/1 dev $1
 ip route del 172.10.10.0/24 dev $1
 _EOF_
 
-exec pon vpn debug dump logfd 2 nodetach persist "$@"
+exec pon ${TUNNEL} debug dump logfd 2 nodetach persist "$@"
+syslogd -n -O /dev/stdout
