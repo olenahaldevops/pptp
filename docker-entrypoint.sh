@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Check if the debug file exists
+if [ ! -f /etc/ppp/peers/debug ]; then
+  echo "The file /etc/ppp/peers/debug does not exist."
+  exit 1
+fi
+
 cat > /etc/ppp/peers/${TUNNEL} <<_EOF_
 pty "pptp ${SERVER} --nolaunchpppd"
 name "${USERNAME}"
