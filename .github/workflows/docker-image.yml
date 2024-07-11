@@ -1,5 +1,4 @@
 name: Docker Image CI
-
 on:
   push:
     branches: [ "main" ]
@@ -7,15 +6,27 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag olenahal/pptp-client:$(date +%s)
 
+    - name: Set up tag variable
+      id: get_tag
+      run: echo "TAG=$(date +%s)" >> $GITHUB_ENV
+    
+    - name: Log in to Docker Hub
+      env:
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+    
+    - name: Build the Docker image
+      env:
+        TAG: ${{ env.TAG }}
+      run: docker build . --file Dockerfile --tag olenahal/pptp-client:${{ env.TAG }}
+    
     - name: Push the Docker image
-      run: docker push olenahal/pptp-client:$(date +%s)  
+      env:
+        TAG: ${{ env.TAG }}
+      run: docker push olenahal/pptp-client:${{ env.TAG }}
