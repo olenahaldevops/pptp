@@ -1,7 +1,7 @@
 FROM alpine:latest
 LABEL maintainer="kev <noreply@olenahal>"
 
-RUN apk update && apk upgrade && apk add --no-cache openssl=3.3.1-r1
+RUN apk update && apk upgrade && apk add --no-cache openssl=3.3.1-r3
 
 # Install pptpclient from the edge/testing repository
 RUN apk add --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ pptpclient
