@@ -1,1 +1,1 @@
-# pptp
+# pptp-client
