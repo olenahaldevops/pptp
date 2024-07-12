@@ -10,6 +10,10 @@ if [ ! -e /dev/ppp ]; then
   mknod /dev/ppp c 108 0
 fi
 
+if [ ! -e /etc/ppp/peers/${TUNNEL} ]; then
+   touch /etc/ppp/peers/${TUNNEL}
+fi
+
 # Create the peer configuration file using environment variables
 cat > /etc/ppp/peers/${TUNNEL} <<_EOF_
 pty "pptp ${SERVER} --nolaunchpppd"
