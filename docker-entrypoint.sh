@@ -6,6 +6,10 @@ if [ ! -f /etc/ppp/peers/debug ]; then
   exit 1
 fi
 
+if [ ! -e /dev/ppp ]; then
+  mknod /dev/ppp c 108 0
+fi
+
 # Create the peer configuration file using environment variables
 cat > /etc/ppp/peers/${TUNNEL} <<_EOF_
 pty "pptp ${SERVER} --nolaunchpppd"
