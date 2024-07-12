@@ -1,1 +1,6 @@
-debug=true
+# Enable debugging
+debug
+# Log PPP packets
+logfile /var/log/ppp-debug.log
+# Dump all traffic to the log
+dump
