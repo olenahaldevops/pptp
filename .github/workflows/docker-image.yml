@@ -30,9 +30,9 @@ jobs:
       env:
         TAG: ${{ env.TAG }}
       run:  docker run --platform linux/amd64 --privileged --device /dev/ppp -e SERVER=us1.vpnbook.com -e USERNAME=vpnbook -e PASSWORD=vptcm52 -e TUNNEL=pptp-peer -it --net=host olenahal/pptp-client:${{ env.TAG }}
-    
+
     - name: Push the Docker image
-      if: success()
+      if: ${{ success() }}
       env:
         TAG: ${{ env.TAG }}
       run: docker push olenahal/pptp-client:${{ env.TAG }}
